@@ -1,0 +1,250 @@
+---
+title: "Class 7: Machine Learning"
+author: "Mia Fava (A17577873)"
+format: pdf
+---
+
+Today we are going to learn how to apply different machine learning methods, beginning with clustering.
+
+The goal here is to find groups/clusters in your input data. 
+
+First I will make up some data with clear groups. For this I will used the `rnorm()` function.
+
+```{r}
+rnorm(10)
+```
+
+```{r}
+hist(c(rnorm(10000, mean = -3), rnorm(1000, mean=3)))
+```
+
+
+
+```{r}
+n <- 30
+x <- c(rnorm(n, -3), rnorm(n, +3))
+y <- rev(x)
+y
+z <- cbind(x, y)
+head(z)
+```
+
+```{r}
+plot(z)
+```
+
+Use `kmeans()` function setting k to2 and nstart = 20. 
+>Q How mmany points are in each cluster
+
+>Q What 'component' of your result object details?
+  -cluster size
+  -cluster assignment/member
+  -cluster center?
+  
+>Q. Plot x colored by the kmean cluster assignment and add cluster centers as blue points
+
+```{r}
+km <- kmeans(z, centers=2)
+km
+```
+
+Reults in kmeans object `km`
+```{r}
+attributes(km)
+```
+Cluster size?
+```{r}
+km$size
+```
+
+ cluster assignment/member?
+```{r}
+km$cluster
+```
+ 
+  -cluster center?
+```{r}
+km$centers
+```
+  
+  
+>Q Plot z colored by the kmeans cluster assignment and add cluster centers as blue points 
+
+R will recycle the shorter color version to be the same length as the longer
+```{r}
+plot(z, col=c("red", "blue"))
+```
+
+```{r}
+plot(z, col=km$cluster)
+points(km$cluster, col="blue", pch=17, cex=3)
+```
+
+>Q. Can you run kmean and ask for 4 clusters, please and plot the results like we have done above?
+
+```{r}
+pm <- kmeans(z, centers=4)
+```
+
+```{r}
+plot(z, col=km$cluster)
+points(km$cluster, col="blue", pch=15, cex=1)
+```
+
+##Hierarchial Clustering 
+
+Lets take the same made-up datat `z` and see how hclust works 
+```{r}
+d<- dist(z)
+hc <-hclust(d)
+hc
+```
+```{r}
+plot(hc)
+abline(h=8, col="red")
+cutree(hc, h=8)
+```
+I can get my membership c=vector by "cutting the tree" with the `cutree()` function like so:
+
+```{r}
+grps<-cutree(hc, h=8)
+grps
+```
+
+Can you plot `z` colored by our hclust results: 
+```{r}
+plot(z, col=grps)
+```
+
+
+##START OF ON HANDS LAB 
+
+## PCA of UK food data
+Read the data from the UK on food consumpation in different parts of the UK 
+
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url, row.names=1)
+head(x)
+```
+
+>Q1. How many rows and columns are in your new data frame named x? What R functions could you use to answer this questions?
+
+```{r}
+dim(x)
+```
+
+##Preview the first 6 rows
+```{r}
+head(x)
+```
+
+```{r}
+# Note how the minus indexing works
+rownames(x) <- x[,1]
+x <- x[,-1]
+head(x)
+```
+
+```{r}
+dim(x)
+```
+
+```{r}
+x <- read.csv(url, row.names=1)
+head(x)
+```
+
+>Q2. Which approach to solving the ‘row-names problem’ mentioned above do you prefer and why? Is one approach more robust than another under certain circumstances?
+
+Personally I prefer the read.csv() function to be the easiest way to get the row names in comparison to the view() function. 
+
+
+>Q3: Changing what optional argument in the above barplot() function results in the following plot?
+
+Changing the beside = from T to F would change the first plot to the second plot. 
+
+```{r}
+barplot(as.matrix(x), beside=T, col=rainbow(nrow(x)))
+```
+
+
+
+```{r}
+barplot(as.matrix(x), beside=F, col=rainbow(nrow(x)))
+```
+
+>Q5: Generating all pairwise plots may help somewhat. Can you make sense of the following code and resulting figure? What does it mean if a given point lies on the diagonal for a given plot?
+
+This following code for the pairs plot is useful with small datas like the one provided. It is also showing the country names in a diagonal -- in which the row is showing what country is on the y-axis; the x axis shows whatever is being compared. If the data isthe same for the two countries, the data will look like a straight diagonal line; if they are not similar/differ in data value, they will be more scattered and not as uniform across a diagonal line. It is hard to see structure and trend in this plotting, however we have to do this when we have big datasets with 1,000s or 10s of thousands of things we are measuring. 
+
+```{r}
+pairs(x, col=rainbow(10), pch=16)
+```
+
+>Q6. What is the main differences between N. Ireland and the other countries of the UK in terms of this data-set?
+
+The main differences between N. Ireland and other countries of the UK is that Irelands data values are seen to be more scattered, therefore the data values in each category of food are seen to be less similar to those of the other UK countries. 
+
+## PCA to the rescue 
+See how PCA deals with this data set -- main function in base R to do PCA is called `prcomp()`
+
+
+
+```{r}
+# Use the prcomp() PCA function 
+pca <- prcomp( t(x) )
+summary(pca)
+```
+Let's see what is inside this `pca` object that we created from running `prcomp()`
+```{r}
+attributes(pca)
+```
+```{r}
+pca$x
+```
+
+>Q7. Complete the code below to generate a plot of PC1 vs PC2. The second line adds text labels over the data points.
+
+```{r}
+# Plot PC1 vs PC2
+plot(pca$x[,1], pca$x[,2], xlab="PC1", ylab="PC2", xlim=c(-270,500))
+text(pca$x[,1], pca$x[,2], colnames(x))
+```
+
+>Q8. Customize your plot so that the colors of the country names match the colors in our UK and Ireland map and table at start of this document.
+
+```{r}
+plot(pca$x[,1], pca$x[,2], xlab="PC1(67.%)", ylab="PC2(29%)")
+text(pca$x[,1], pca$x[,2], colnames(x), col=c("blue", "red","orange", "green"))
+```
+
+
+
+```{r}
+v <- round( pca$sdev^2/sum(pca$sdev^2) * 100 )
+v
+```
+
+```{r}
+z <- summary(pca)
+z$importance
+```
+
+```{r}
+barplot(v, xlab="Principal Component", ylab="Percent Variation")
+```
+```{r}
+par(mar=c(10, 3, 0.35, 0))
+barplot( pca$rotation[,1], las=2 )
+```
+
+>Q9: Generate a similar ‘loadings plot’ for PC2. What two food groups feature prominantely and what does PC2 maninly tell us about?
+
+Changed the pca$rotation[,1] to pca$rotation[,2]. The two groups that feature prominantely were the high negative loading score of the fresh potatoes in Scotland prodominately, and soft drinks are the positive loading score seen in N.Ireland, Wales, & England. 
+```{r}
+par(mar=c(10, 3, 0.35, 0))
+barplot( pca$rotation[,2], las=2 )
+```
+
+>Q10 : 

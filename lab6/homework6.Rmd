@@ -1,0 +1,46 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+Homework 6: Question 6
+>Q6. How would you generalize the original code below to work with any set of input protein structures?
+
+hc <- hclust( dist( rbind(s1.b, s2.b, s3.b) ) )
+plot(hc)
+
+Updated Code: 
+```{r}
+analyze_and_cluster_bfactors <- function(pdb_files, chain = "A", elety = "CA") {
+  # Load, trim, and extract B-factors for all input PDB files
+  b_factors <- lapply(pdb_files, function(file) {
+    trim.pdb(read.pdb(file), chain = chain, elety = elety)$atom$b
+  })
+  
+  # Perform hierarchical clustering and plot the dendrogram
+  hc <- hclust(dist(do.call(rbind, b_factors)))
+  plot(hc, main = "B-factor Clustering", xlab = "Proteins", sub = "")
+}
+```
+
+# Example: Provide a set of PDB file names from previous questons in section 2
+
+```{r}
+analyze_and_cluster_bfactors(c("4AKE", "1AKE", "1E4Y"))
+```
+
+##Documentation Rubric:
+>Inputs of the functions:
+  -pdb_files: Character vector containing the name of the PBD files 
+  -chain: identifies chain to extract (default = "A").
+  -elety: atom type to keep (default = "CA").
+
+>What does the function do?:
+- Reads many PBD files to then extract the B-factors from the specific chain and atom type. The function then clusters the data to compare.  
+  
+>Output:
+Plot shows clustering of the input proteins based on similiarty in B-factors. 
+
+##Code Rubric: 
+>Correct Functionality 
+
