@@ -11,9 +11,9 @@ This repo is for my UC San Diego [bioinformatics class](https://bioboot.github.i
   
 - Class 09: [Halloween Lab](https://github.com/mfava10/bimm143/blob/main/class09_files/class09.md)
   
-- Class 10: [Structural Lab](https://github.com/mfava10/bimm143/blob/main/class10/class10.pdf)
+- Class 10: [Structural Lab](https://github.com/mfava10/bimm143/blob/main/class10/class10.md)
   
-- Class 11: [Structural Bioinformatics (pt2 AlphaFold)]()
+- Class 11: [Structural Bioinformatics (pt2 AlphaFold)](No Lab Attached)
 
 - Class 12: [Genome informatics and high throughput sequencing](https://github.com/mfava10/bimm143/blob/main/class12/lab%2012.pdf)
 
