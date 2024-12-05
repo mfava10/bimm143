@@ -1,5 +1,5 @@
 # bimm143
-This repo is for my UC San Diego [bioinformatics class](https://bioboot.github.io/bimm143_F24/).
+This repo is for my UC San Diego [bioinformatics class](https://bioboot.github.io/bimm143_F24/)
 
 - Class 5: [Data Visualization with GGPLOT](https://github.com/mfava10/bimm143/blob/main/class05/lab_5.pdf)
   
