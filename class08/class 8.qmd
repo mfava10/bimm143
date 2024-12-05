@@ -1,7 +1,7 @@
 ---
 title: "Class 08 Mini Project"
 author: "Mia Fava"
-format: pdf
+format: gfm
 ---
 
 It is important to consider scaling your data before analysis such as PCA
