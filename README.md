@@ -7,7 +7,7 @@ This repo is for my UC San Diego [bioinformatics class](https://bioboot.github.i
   
 - Class 7: [Machine Learning](https://github.com/mfava10/bimm143/blob/main/class07/class%207.md)
   
-- Class 08: [Breast Cancer Cell MiniLab](https://github.com/mfava10/bimm143/blob/main/class08/class-8.pdf)
+- Class 08: [Breast Cancer Cell MiniLab](https://github.com/mfava10/bimm143/blob/main/class08/class%208.md)
   
 - Class 09: [Halloween Lab](https://github.com/mfava10/bimm143/blob/main/class09_files/class09.pdf)
   
