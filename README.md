@@ -6,4 +6,4 @@ Class 7: [Machine Learning](https://github.com/mfava10/bimm143/blob/main/class07
 Class 08: [Breast Cancer Cell MiniLab](https://github.com/mfava10/bimm143/blob/main/class08/class-8.pdf)
 Class 09: [Halloween Lab](https://github.com/mfava10/bimm143/blob/main/class09_files/class09.pdf)
 Class 10: [Structural Lab](https://github.com/mfava10/bimm143/blob/main/class10/class10.pdf)
-Class 11:
+Class 11: 
