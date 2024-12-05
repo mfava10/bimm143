@@ -5,7 +5,7 @@ This repo is for my UC San Diego [bioinformatics class](https://bioboot.github.i
   
 - Class 6: [R Functions](https://github.com/mfava10/bimm143/blob/main/lab6/lab6.md)
   
-- Class 7: [Machine Learning](https://github.com/mfava10/bimm143/blob/main/class07/class-7.pdf)
+- Class 7: [Machine Learning](https://github.com/mfava10/bimm143/blob/main/class07/class%207.md)
   
 - Class 08: [Breast Cancer Cell MiniLab](https://github.com/mfava10/bimm143/blob/main/class08/class-8.pdf)
   
