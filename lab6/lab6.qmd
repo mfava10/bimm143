@@ -1,9 +1,8 @@
 ---
 title: "class 6: R functions"
 author: "Mia Fava"
-format: gfm
+format: pdf
 ---
-
 Today we are going to explore R functions and beging think about writing our own functions
 
 Let's start simple and write our first function to ass some numbers
