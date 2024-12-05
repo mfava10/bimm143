@@ -1,0 +1,211 @@
+---
+title: "class 9 : structural"
+author: "Mia Fava"
+format: pdf
+---
+
+```{r}
+library(readr)
+pdbdata <- read_csv("Data Export Summary.csv")
+head(pdbdata)
+```
+
+> Q1: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.
+
+```{r}
+sum(pdbdata$`X-ray`)/sum(pdbdata$Total) *100
+```
+
+Percentage of Xray is 83.3%
+
+```{r}
+sum(pdbdata$EM)/sum(pdbdata$Total) *100
+```
+
+Percentage of EM is 10.2%
+
+> Q2: What proportion of structures in the PDB are protein?
+
+```{r}
+pdbdata$Total[1]/sum(pdbdata$Total) *100
+```
+
+> Q3: Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?
+
+According to the search data base, there are 226,707 structures of HIV-1 protease.
+
+##Mol\*
+
+![beginning strand](hsgimage.png)
+
+> Q4: Water molecules normally have 3 atoms. Why do we see just one atom per water molecule in this structure?
+
+There is only one atom per water molecule in this structure due to how the single atom represents only the oxygen. Oxygen is more electron-dense than hydrogen atoms, resulting in them being easier to detect in comparison to hydrogen atoms.
+
+> Q5: There is a critical “conserved” water molecule in the binding site. Can you identify this water molecule? What residue number does this water molecule have
+
+The critical conserved water molecule for 1HSG residue number was seen to be 301.
+
+> Q6: Generate and save a figure clearly showing the two distinct chains of HIV-protease along with the ligand. You might also consider showing the catalytic residues ASP 25 in each chain and the critical water (we recommend “Ball & Stick” for these side-chains). Add this figure to your Quarto document. Discussion Topic: Can you think of a way in which indinavir, or even larger ligands and substrates, could enter the binding site?
+
+![Ligand Strand](2aspligands.png)
+
+> Q7: \[Optional\] As you have hopefully observed HIV protease is a homodimer (i.e. it is composed of two identical chains). With the aid of the graphic display can you identify secondary structure elements that are likely to only form in the dimer rather than the monomer?
+
+The Beta sheets is an example of secondary structures that would form in the dimer rather than the monomer. Another example would be the residue arrangements of Asp25, as they are positioned where dimerization is necessary for them to interact with each other.
+
+##Introduction to BIO3D
+
+```{r}
+library(bio3d)
+```
+
+```{r}
+pdb <- read.pdb("1hsg")
+```
+
+```{r}
+pdb
+```
+
+```{r}
+attributes(pdb)
+```
+
+```{r}
+head(pdb$atom)
+```
+
+```{r}
+adk <- read.pdb("6s36")
+```
+
+```{r}
+adk
+```
+
+```{r}
+# Perform flexiblity prediction
+m <- nma(adk)
+```
+
+```{r}
+plot(m)
+```
+
+```{r}
+mktrj(m, file="adk_m7.pdb")
+```
+
+##Comparative analysis of Adenylate Kinase 
+
+```{r}
+library(bio3d)
+aa <- get.seq("1ake_A")
+```
+
+```{r}
+aa
+```
+
+```{r}
+# Blast or hmmer search 
+b <- blast.pdb(aa)
+```
+
+Plot a summary of search results
+```{r}
+hits <- plot(b)
+```
+
+```{r}
+head(hits$pdb.id)
+```
+
+```{r}
+files <- get.pdb(hits$pdb.id, path="pdbs", split=TRUE, gzip=TRUE)
+```
+
+```{r}
+pdbs <- pdbaln(files, fit = TRUE, exefile="msa")
+```
+
+```{r, error=TRUE}
+library(bio3d)
+# vector containing PDB codes for figure axis
+ids <- basename.pdb(pdbs$id)
+
+# schematic alignment
+plot(pdbs, labels=ids)
+str(pdbs)
+```
+![Alignment index because margins too big](alignmentindex.png)
+
+
+```{r}
+anno <- pdb.annotate(ids)
+unique(anno$source)
+```
+
+```{r}
+anno
+```
+
+```{r}
+# Perform PCA
+pc.xray <- pca(pdbs)
+plot(pc.xray)
+```
+
+```{r}
+rd <- rmsd(pdbs)
+hc.rd <- hclust(dist(rd))
+grps.rd <- cutree(hc.rd, k=3)
+
+print(plot(pc.xray, 1:2, col="grey50", bg=grps.rd, pch=21, cex=1))
+```
+
+##Optional Further Investigation
+
+```{r}
+# Visualize first principal component
+pc1 <- mktrj(pc.xray, pc=1, file="pc_1.pdb")
+```
+
+```{r}
+library(ggplot2)
+library(ggrepel)
+```
+
+```{r}
+df <- data.frame(PC1=pc.xray$z[,1], 
+                 PC2=pc.xray$z[,2], 
+                 col=as.factor(grps.rd),
+                 ids=ids)
+
+p <- ggplot(df) + 
+  aes(PC1, PC2, col=col, label=ids) +
+  geom_point(size=2) +
+  geom_text_repel(max.overlaps = 20) +
+  theme(legend.position = "none")
+p
+```
+
+## Optional futher visualization 
+
+```{r}
+pc1 <- mktrj(pc.xray, pc=1, file="pc_1.pdb")
+```
+
+
+![MolStar of pc1](PC_1.PDB.png)
+```{r}
+uniprot <-248838887
+pdb <- 195610
+
+pdb/uniprot * 100
+```
+
+
+
+
