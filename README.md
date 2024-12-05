@@ -14,14 +14,14 @@ This repo is for my UC San Diego [bioinformatics class](https://bioboot.github.i
   
 - Class 10: [Structural Lab](https://github.com/mfava10/bimm143/blob/main/class10/class10.pdf)
   
-- Class 11:
+- Class 11: [Structural Bioinformatics (pt2 AlphaFold)]
 
-- Class 12:
+- Class 12: [Genome informatics and high throughput sequencing]
 
-- Class 13:
+- Class 13: [Transcriptomics, RNA-Seq analysis, and the interpretation of gene lists]
 
-- Class 14:
+- Class 14: [RNA-Seq mini project]
 
-- Class 15:
+- Class 15: [Investigating pertussis resurgence mini project]
 
-- Class 16: 
+- Class 16: [Essential UNIX for bioinformatics]
