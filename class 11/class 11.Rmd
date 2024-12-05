@@ -1,0 +1,43 @@
+---
+title: "Population Scale Analysis"
+author: "Mia Fava"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+##Population Scale Analysis 
+>Q13: Read this file into R and determine the sample size for each genotype and their corresponding median expression levels for each of these genotypes. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+data <- read.csv("popanalysis.txt")
+head(data)
+```
+
+```{r}
+sample_size <- table(data$Genotype)
+print(sample_size)
+```
+
+The sample size for each genotype is seen above: A|A has a sample size of 108, A|G has a sample size of 233, and G|G has a sample size of 121. 
+
+```{r}
+median_expression <- aggregate(Expression ~ Genotype, data = data, FUN = median)
+print(median_expression)
+```
+
+The median expression of each genotype is seen above. The A|A genotype is seen to be 31.2%, the A|G genotype has an expression of 25.1%, and the G|G genotype has an expression of 20.1%. 
+
+>Q14: Generate a boxplot with a box per genotype, what could you infer from the relative expression value between A/A and G/G displayed in this plot? Does the SNP effect the expression of ORMDL3? 
+
+```{r}
+boxplot(Expression ~ Genotype, data = data,
+        main = "expression of ORMDL3 by genotype",
+        xlab = "genotype",
+        ylab = "expression",
+        col = c("red", "blue", "green"))
+```
+Since the box and median line for the A|A genotype is seen ot be higher than the G|G genotype, this shows that individuals with that specific genotype are seen to likely have a higher expression of ORMLD3. This could be due to how the A allele could be associated with higher ORMLD3 expression. In regards to SNP, the higher expression for A|A can indicated that the SNP has an impact on the expression of ORMDL3. 

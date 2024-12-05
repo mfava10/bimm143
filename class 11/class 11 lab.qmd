@@ -1,0 +1,23 @@
+---
+title: "class 11: genome informatics"
+author: "Mia Fava A17577873"
+format: html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+##Section 1. Proportion og G/G in a population
+
+```{r}
+mxl <- read.csv("sample genome.csv")
+head (mxl)
+```
+
+```{r}
+table(mxl$Genotype..forward.strand.) / nrow(mxl) * 100
+```
+
+
+
